@@ -10,9 +10,9 @@ namespace ConsoleApp1
     {
         static void IspisTable(int[,] xo)
         {
-            for (int i = 0; i < 3; i++)
+            for (int j = 2; j >= 0; j--)
             {
-                for (int j = 0; j < 3; j++)
+                for (int i = 0; i < 3; i++)
                 {
                     switch (xo[i, j])
                     {
@@ -33,173 +33,199 @@ namespace ConsoleApp1
                             }
 
                     }
-                    if (j != 2)
+                    if (i != 2)
                         Console.Write('|');
                 }
-                if (i!=2)
-                    Console.WriteLine(Environment.NewLine + "---+---+---" /*+ Environment.NewLine*/); //mozda treba jos jedan Enviroment.NewLine na pocetku
+                if (j != 0)
+                    Console.WriteLine(Environment.NewLine + "---+---+---" /*+ Environment.NewLine*/);
             }
 
         }
-
-        public int ProveraPobede(int[,] xo)  //moram da proverim sintaksu za ovo!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        {
-            int rezd1 = 0;
-            int rezd2 = 0;
-                for (int i = 0; i < 3; i++)
+        /* //Ovo je prva varijanta funkcije koja je manje efikasna posto u svakom prelazu preoverava za oba igraca, sto nema potrebe jer samo onaj igrac koji je povukao poslednji potez moze pobediti
+                public int ProveraPobede(int[,] xo)  
                 {
-                    int rezx = 0;
-                    for (int j = 0; j < 3; j++)
-                    {
-                        if (i==j)
-                            switch (xo[i, j])
-                            {
-                                case 0:
-                                    {
-                                        rezd1 += 5;
-                                        break;
-                                    }
-                                case 1:
-                                    {
-                                        rezd1 += 1;
-                                        break;
-                                    }
-                                case 2:
-                                    {
-                                        rezd1 += 2;
-                                        break;
-                                    }
-                            }
-                        if ((i + j)==2)
-                            switch (xo[i, j])
-                            {
-                                case 0:
-                                    {
-                                        rezd2 += 5;
-                                        break;
-                                    }
-                                case 1:
-                                    {
-                                        rezd2 += 1;
-                                        break;
-                                    }
-                                case 2:
-                                    {
-                                        rezd2 += 2;
-                                        break;
-                                    }
-                            }
-
-                        switch (xo[i, j])
+                    int rezd1 = 0;
+                    int rezd2 = 0;
+                        for (int i = 0; i < 3; i++)
                         {
-                            case 0:
+                            int rezx = 0;
+                            for (int j = 0; j < 3; j++)
+                            {
+                                if (i==j)
+                                    switch (xo[i, j])
+                                    {
+                                        case 0:
+                                            {
+                                                rezd1 += 5;
+                                                break;
+                                            }
+                                        case 1:
+                                            {
+                                                rezd1 += 1;
+                                                break;
+                                            }
+                                        case 2:
+                                            {
+                                                rezd1 += 2;
+                                                break;
+                                            }
+                                    }
+                                if ((i + j)==2)
+                                    switch (xo[i, j])
+                                    {
+                                        case 0:
+                                            {
+                                                rezd2 += 5;
+                                                break;
+                                            }
+                                        case 1:
+                                            {
+                                                rezd2 += 1;
+                                                break;
+                                            }
+                                        case 2:
+                                            {
+                                                rezd2 += 2;
+                                                break;
+                                            }
+                                    }
+
+                                switch (xo[i, j])
                                 {
-                                    rezx += 5;
-                                    break;
+                                    case 0:
+                                        {
+                                            rezx += 5;
+                                            break;
+                                        }
+                                    case 1:
+                                        {
+                                            rezx += 1;
+                                            break;
+                                        }
+                                    case 2:
+                                        {
+                                            rezx += 2;
+                                            break;
+                                        }
                                 }
-                            case 1:
-                                {
-                                    rezx += 1;
-                                    break;
-                                }
-                            case 2:
-                                {
-                                    rezx += 2;
-                                    break;
-                                }
+                            }
+                            switch (rezx)
+                            {
+                                case 3:
+                                    {
+                                        return 1;                                
+                                    }
+                                case 6:
+                                    {
+                                        return 2;                                
+                                    }
+                            }
                         }
-                    }
-                    switch (rezx)
+                    switch (rezd1)
                     {
                         case 3:
                             {
-                                return 1;                                
+                                return 1;
                             }
                         case 6:
                             {
-                                return 2;                                
+                                return 2;
                             }
                     }
+                    switch (rezd2)
+                    {
+                        case 3:
+                            {
+                                return 1;
+                            }
+                        case 6:
+                            {
+                                return 2;
+                            }
+                    }
+
+
+
+
+
+
+                    for (int i = 0; i < 3; i++)
+                    {
+                        int rezy = 0;
+                        for (int j = 0; j < 3; j++)
+                        {
+                            switch (xo[j, i])
+                            {
+                                case 0:
+                                    {
+                                        rezy += 5;
+                                        break;
+                                    }
+                                case 1:
+                                    {
+                                        rezy += 1;
+                                        break;
+                                    }
+                                case 2:
+                                    {
+                                        rezy += 2;
+                                        break;
+                                    }
+                            }
+                        }
+                        switch (rezy)
+                        {
+                            case 3:
+                                {
+                                    return 1;
+                                }
+                            case 6:
+                                {
+                                    return 2;
+                                }
+                        }
+                    }
+                    return 0;
+                }*/
+
+        public int ProveraPobede(int[,] xo, int igrac)
+        {
+            igrac++;
+            int rezd1 = 0;
+            int rezd2 = 0;
+            for (int i = 0; i < 3; i++)
+            {
+                int rezx = 0;
+                for (int j = 0; j < 3; j++)
+                {
+                    if (xo[j, i] == igrac)
+                        rezx++;
+                    if (i == j)
+                        if (xo[j, i] == igrac)
+                            rezd1++;
+                    if ((i + j) == 2)
+                        if (xo[j, i] == igrac)
+                            rezd2++;
                 }
-            switch (rezd1)
-            {
-                case 3:
-                    {
-                        return 1;
-                    }
-                case 6:
-                    {
-                        return 2;
-                    }
+                if (rezx == 3)
+                    return igrac;
             }
-            switch (rezd2)
-            {
-                case 3:
-                    {
-                        return 1;
-                    }
-                case 6:
-                    {
-                        return 2;
-                    }
-            }
-
-
-
-
-
+            if ((rezd1 == 3) || (rezd2 == 3))
+                return igrac;
 
             for (int i = 0; i < 3; i++)
             {
                 int rezy = 0;
                 for (int j = 0; j < 3; j++)
                 {
-                    switch (xo[j, i])
-                    {
-                        case 0:
-                            {
-                                rezy += 5;
-                                break;
-                            }
-                        case 1:
-                            {
-                                rezy += 1;
-                                break;
-                            }
-                        case 2:
-                            {
-                                rezy += 2;
-                                break;
-                            }
-                    }
+                    if (xo[i, j] == igrac)
+                        rezy++;
                 }
-                switch (rezy)
-                {
-                    case 3:
-                        {
-                            return 1;
-                        }
-                    case 6:
-                        {
-                            return 2;
-                        }
-                }
+                if (rezy == 3)
+                    return igrac;
             }
             return 0;
         }
-        /* alternativna funkcija koju treba napisati koja ce se odvojeno pozivati na potezu prvog i na potezu drugog igraca
-                static int ProveraPobedeAlt()
-                {
-                   
-        if (i % 2 == 0)  //u ovom slucaju se samo proverava za prvog igraca
-        {
-        }
-        else //u ovom slucaju se samo proverva za drugog igraca
-        {
-
-        }
-        
-    }*/
 
         static void Singleplayer()
         {
@@ -212,10 +238,10 @@ namespace ConsoleApp1
             int pobednik = 0;
             Program n = new Program();
 
-            for (int i=0;i<9;i++)
+            for (int i = 0; i < 9; i++)
             {
                 int x, y;
-                if (i%2==0)
+                if (i % 2 == 0)
                 {
                     Console.Clear();
                     IspisTable(tabla);
@@ -231,11 +257,11 @@ namespace ConsoleApp1
                             i--;
                     else
                         i--;
-                    
+
                 }
                 else
                 {
-                    Console.Clear();                    
+                    Console.Clear();
                     IspisTable(tabla);
                     Console.WriteLine(Environment.NewLine + "Na potezu je igrac 2");
                     Console.WriteLine("Igrac 2 unesite x koordinatu");
@@ -250,26 +276,16 @@ namespace ConsoleApp1
                     else
                         i--;
 
-                }                
+                }
                 if (i > 3)
-                {                    
-                    pobednik = n.ProveraPobede(tabla);
-                    switch (pobednik)
+                {
+                    pobednik = n.ProveraPobede(tabla, i % 2);
+                    if (pobednik != 0)
                     {
-                        case 1:
-                            {
-                                Console.Clear();
-                                IspisTable(tabla);
-                                Console.WriteLine(Environment.NewLine + "Pobednik je igrac 1");
-                                return;
-                            }
-                        case 2:
-                            {
-                                Console.Clear();
-                                IspisTable(tabla);
-                                Console.WriteLine(Environment.NewLine + "Pobednik je igrac 2");
-                                return;
-                            }
+                        Console.Clear();
+                        IspisTable(tabla);
+                        Console.WriteLine(Environment.NewLine + "Pobednik je igrac " + pobednik);
+                        return;
                     }
                 }
             }
@@ -277,12 +293,12 @@ namespace ConsoleApp1
             IspisTable(tabla);
             Console.WriteLine(Environment.NewLine + "Nereseno je");
             return;
-            }
+        }
 
         static void Main(string[] args)
         {
             string unos;
-            
+
             do
             {
                 Console.WriteLine("Unesite broj igraca 1 ili 2, ukoliko zelite prestati sa igrom unesite X");
@@ -318,12 +334,12 @@ namespace ConsoleApp1
                             break;
                         }
                 }
-                
-            } while (unos!="X");
+
+            } while (unos != "X");
 
             //Console.ReadKey();
 
- 
+
         }
     }
 }

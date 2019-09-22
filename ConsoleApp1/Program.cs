@@ -255,12 +255,12 @@ namespace ConsoleApp1
             } while (uspeh==0);
         }
 
-        static void Singleplayer()
+        static void Singleplayer(int red)
         {
             int[,] tabla = new int[3, 3];
             int pobednik = 0, x=0, y=0;
             Program n = new Program();            
-            for (int i = 0; i < 9; i++)
+            for (int i = 0-red; i < 9-red; i++)
             {               
                 if (i % 2 == 0)
                 {                    
@@ -383,12 +383,31 @@ namespace ConsoleApp1
                 Console.WriteLine("Unesite broj igraca 1 ili 2, ukoliko zelite prestati sa igrom unesite X");
                 unos = Console.ReadLine();
 
-                switch (unos)
+                switch (unos) //PITANJE? da li je efikasnije konvertovati unos u int pre switcha?
                 {
                     case "1":
                         {
                             //Console.WriteLine("Jos nismo dodali ovu mogucnost");
-                            Singleplayer();
+                            Console.WriteLine("Ako zelite da igrate prvi unesite 1, ako zelite da igrate drugi unesite 2");
+                            unos = Console.ReadLine();
+                            switch(unos)
+                            {
+                                case "1":
+                                    {
+                                        Singleplayer(0);
+                                        break;
+                                    }
+                                case "2":
+                                    {
+                                        Singleplayer(1);
+                                        break;
+                                    }
+                                default:
+                                    {
+                                        Console.WriteLine("Unos nije validan, molimo vas pokusajte ponovo");
+                                        break;
+                                    }
+                            }
                             break;
                         }
                     case "2":

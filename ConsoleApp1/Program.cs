@@ -37,7 +37,7 @@ namespace ConsoleApp1
                         Console.Write('|');
                 }
                 if (j != 0)
-                    Console.WriteLine(Environment.NewLine + "---+---+---" /*+ Environment.NewLine*/);
+                    Console.WriteLine(Environment.NewLine + "---+---+---");
             }
 
         }
@@ -227,9 +227,88 @@ namespace ConsoleApp1
             return 0;
         }
 
+        /* Trenutno je ubacen samo random CPU ponasanje koje ce biti u igri kao najniza tezina, u planu je ubacivanje vece tezine
+         * gde ce postojati pravi protivnik koji ce raditi na osnovu poslednje povucenog poteza protivnika i algoritma za pravilno igranje iks oks igre
+         * Tada ce se CPU funkciji pored table prosledjivati i jedan int koji ce odrediti "tezinu",
+         * jedini posao CPU funkcije bice da pozove "random CPU" funkciju ili "real CPU" funkciju koji ce da budu odvojene funkcije
+         * Za kraj je u planu ubaciti selektor tezine od 1 do 5, gde ce sama CPU funkcija izbaciti Random broj od 1 do 4
+         * i ako odabrana tezina bude bila veca od tog random broja CPU funkcija ce pozvati "real CPU" funkciju, u suprotnom "random CPU" funkciju.
+         * Tako da ce tezina 3 imati 50%/50% sansu da odradi pravi potez u odnosu na random potez(mada random potez moze se slucajno poklopiti sa pravim
+         * necemo to uzimati u razmatranje procenta.
+         * Kada se bude ubacio selektor tezine "real CPU" funkcija ce morati da bude ponovo napisana i prosirena kako bi mogla da radi na osnovu analize polja, 
+         * a ne samo poslednjeg poteza protivnika, jer zbog random elementa polje se nece uklopiti u prethodni algoritam
+        */
+        static void CPU(int[,] xo) //treba prokljuviti kako da samo vratim 2 broja jednom metodom uspomoc C#7 tuple feature-a
+        {  //mada je to verovatno neefikasno jer u svakom slucaju se mora proslediti tabla za sve cpu situacije sem za random
+            Random rnd = new Random();
+            int uspeh = 0;
+            do
+            {                
+                int x = rnd.Next(0, 3);
+                int y = rnd.Next(0, 3);
+                if (xo[x, y] == 0)
+                {
+                    xo[x, y] = 2;
+                    Console.WriteLine(Environment.NewLine + "Racnar je odigrao x:" + ++x + " y:" + ++y);
+                    uspeh = 1;
+                }
+            } while (uspeh==0);
+        }
+
         static void Singleplayer()
         {
-
+            int[,] tabla = new int[3, 3];
+            int pobednik = 0, x=0, y=0;
+            Program n = new Program();            
+            for (int i = 0; i < 9; i++)
+            {               
+                if (i % 2 == 0)
+                {                    
+                    IspisTable(tabla);                    
+                    Console.WriteLine(Environment.NewLine + "Na potezu je igrac");
+                    Console.WriteLine("Unesite x koordinatu");
+                    Int32.TryParse(Console.ReadLine(), out x);
+                    Console.WriteLine("Unesite y koordinatu");
+                    Int32.TryParse(Console.ReadLine(), out y);
+                    if (x > 0 && x < 4 && y > 0 && y < 4)
+                        if (tabla[--x, --y] == 0)
+                            tabla[x, y] = 1;
+                        else
+                            i--;
+                    else
+                        i--;
+                    Console.Clear();
+                }
+                else
+                {
+                    CPU(tabla);
+                }
+                if (i > 3)
+                {
+                    pobednik = n.ProveraPobede(tabla, i % 2);
+                    switch(pobednik)
+                    {
+                        case 1:
+                            {
+                                Console.Clear();
+                                IspisTable(tabla);
+                                Console.WriteLine(Environment.NewLine + "Pobedili ste");
+                                return;
+                            }
+                        case 2:
+                            {
+                                Console.Clear();
+                                IspisTable(tabla);
+                                Console.WriteLine(Environment.NewLine + "Racunar vas je pobedio");
+                                return;
+                            }
+                    }
+                }
+            }
+            Console.Clear();
+            IspisTable(tabla);
+            Console.WriteLine(Environment.NewLine + "Nereseno je");
+            return;
         }
 
         static void Multiplayer()
@@ -308,8 +387,8 @@ namespace ConsoleApp1
                 {
                     case "1":
                         {
-                            Console.WriteLine("Jos nismo dodali ovu mogucnost");
-                            //Singleplayer();
+                            //Console.WriteLine("Jos nismo dodali ovu mogucnost");
+                            Singleplayer();
                             break;
                         }
                     case "2":

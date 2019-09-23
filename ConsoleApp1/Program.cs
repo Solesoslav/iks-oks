@@ -504,8 +504,7 @@ namespace ConsoleApp1
                         }
                     default:
                         {
-                            Console.WriteLine("Unos nije validan, molimo vas pokusajte ponovo");
-                            unos = Console.ReadLine();
+                            Console.WriteLine("Unos nije validan, molimo vas pokusajte ponovo");                            
                             break;
                         }
                 }

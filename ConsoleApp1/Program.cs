@@ -39,158 +39,222 @@ namespace ConsoleApp1
                 if (j != 0)
                     Console.WriteLine(Environment.NewLine + "---+---+---");
             }
-
         }
-        /* //Ovo je prva varijanta funkcije koja je manje efikasna posto u svakom prelazu preoverava za oba igraca, sto nema potrebe jer samo onaj igrac koji je povukao poslednji potez moze pobediti
-                public int ProveraPobede(int[,] xo)  
+
+        static void PotezIgrac(int[,] xo, int red)
+        {
+            //Program n = new Program();
+            Console.Clear();
+            IspisTable(xo);
+            int x, y;
+            Console.WriteLine(Environment.NewLine + "Na potezu je igrac " + red);
+            Console.WriteLine("Igrac " + red + " unesite x koordinatu");
+            Int32.TryParse(Console.ReadLine(), out x);
+            Console.WriteLine("Igrac " + red + " unesite y koordinatu");
+            Int32.TryParse(Console.ReadLine(), out y);
+            //n.ValidacijaPolja(xo, red, x, y); //nisam uspeo da namestim da ova funkcija menja x i y
+            int i;
+            do
+            {
+                i = 0;
+                while (x > 3 || x < 1 || y > 3 || y < 1)
                 {
-                    int rezd1 = 0;
-                    int rezd2 = 0;
-                        for (int i = 0; i < 3; i++)
-                        {
-                            int rezx = 0;
-                            for (int j = 0; j < 3; j++)
-                            {
-                                if (i==j)
-                                    switch (xo[i, j])
-                                    {
-                                        case 0:
-                                            {
-                                                rezd1 += 5;
-                                                break;
-                                            }
-                                        case 1:
-                                            {
-                                                rezd1 += 1;
-                                                break;
-                                            }
-                                        case 2:
-                                            {
-                                                rezd1 += 2;
-                                                break;
-                                            }
-                                    }
-                                if ((i + j)==2)
-                                    switch (xo[i, j])
-                                    {
-                                        case 0:
-                                            {
-                                                rezd2 += 5;
-                                                break;
-                                            }
-                                        case 1:
-                                            {
-                                                rezd2 += 1;
-                                                break;
-                                            }
-                                        case 2:
-                                            {
-                                                rezd2 += 2;
-                                                break;
-                                            }
-                                    }
+                    Console.Clear();
+                    IspisTable(xo);
+                    Console.WriteLine(Environment.NewLine + "Unos nije validan, molimo vas pokusajte ponovo");
+                    Console.WriteLine("Igrac " + red + " unesite x koordinatu");
+                    Int32.TryParse(Console.ReadLine(), out x);
+                    Console.WriteLine("Igrac " + red + " unesite y koordinatu");
+                    Int32.TryParse(Console.ReadLine(), out y);
+                    i++;
+                }
+                if (xo[x - 1, y - 1] != 0)
+                {
+                    Console.Clear();
+                    IspisTable(xo);
+                    Console.WriteLine(Environment.NewLine + "Polje je zauzeto, molimo vas pokusajte ponovo");
+                    Console.WriteLine("Igrac " + red + " unesite x koordinatu");
+                    Int32.TryParse(Console.ReadLine(), out x);
+                    Console.WriteLine("Igrac " + red + " unesite y koordinatu");
+                    Int32.TryParse(Console.ReadLine(), out y);
+                    i++;
+                }
+            } while (i != 0);
+            xo[x - 1, y - 1] = red;            
+        }
 
-                                switch (xo[i, j])
-                                {
-                                    case 0:
-                                        {
-                                            rezx += 5;
-                                            break;
-                                        }
-                                    case 1:
-                                        {
-                                            rezx += 1;
-                                            break;
-                                        }
-                                    case 2:
-                                        {
-                                            rezx += 2;
-                                            break;
-                                        }
-                                }
-                            }
-                            switch (rezx)
-                            {
-                                case 3:
-                                    {
-                                        return 1;                                
-                                    }
-                                case 6:
-                                    {
-                                        return 2;                                
-                                    }
-                            }
-                        }
-                    switch (rezd1)
+        public void ValidacijaPolja(int[,] xo, int red, int x, int y)
+        {
+            int i;
+            do
+            {
+                i = 0;
+                while (x > 3 || x < 1 || y > 3 || y < 1)
+                {
+                    Console.Clear();
+                    IspisTable(xo);
+                    Console.WriteLine(Environment.NewLine + "Unos nije validan, molimo vas pokusajte ponovo");
+                    Console.WriteLine("Igrac " + red + " unesite x koordinatu");
+                    Int32.TryParse(Console.ReadLine(), out x);
+                    Console.WriteLine("Igrac " + red + " unesite y koordinatu");
+                    Int32.TryParse(Console.ReadLine(), out y);
+                    i++;
+                }
+                if (xo[x - 1, y - 1] != 0)
+                {
+                    Console.Clear();
+                    IspisTable(xo);
+                    Console.WriteLine(Environment.NewLine + "Polje je zauzeto, molimo vas pokusajte ponovo");
+                    Console.WriteLine("Igrac " + red + " unesite x koordinatu");
+                    Int32.TryParse(Console.ReadLine(), out x);
+                    Console.WriteLine("Igrac " + red + " unesite y koordinatu");
+                    Int32.TryParse(Console.ReadLine(), out y);
+                    i++;
+                }                                                        
+            } while (i != 0);
+        }
+        
+        static int ProveraPobedeAlt(int[,] xo)  
+        {
+            int rezd1 = 0;
+            int rezd2 = 0;
+                for (int i = 0; i < 3; i++)
+                {
+                    int rezx = 0;
+                    for (int j = 0; j < 3; j++)
                     {
-                        case 3:
-                            {
-                                return 1;
-                            }
-                        case 6:
-                            {
-                                return 2;
-                            }
-                    }
-                    switch (rezd2)
-                    {
-                        case 3:
-                            {
-                                return 1;
-                            }
-                        case 6:
-                            {
-                                return 2;
-                            }
-                    }
-
-
-
-
-
-
-                    for (int i = 0; i < 3; i++)
-                    {
-                        int rezy = 0;
-                        for (int j = 0; j < 3; j++)
-                        {
-                            switch (xo[j, i])
+                        if (i==j)
+                            switch (xo[i, j])
                             {
                                 case 0:
                                     {
-                                        rezy += 5;
+                                        rezd1 += 5;
                                         break;
                                     }
                                 case 1:
                                     {
-                                        rezy += 1;
+                                        rezd1 += 1;
                                         break;
                                     }
                                 case 2:
                                     {
-                                        rezy += 2;
+                                        rezd1 += 2;
                                         break;
                                     }
                             }
-                        }
-                        switch (rezy)
+                        if ((i + j)==2)
+                            switch (xo[i, j])
+                            {
+                                case 0:
+                                    {
+                                        rezd2 += 5;
+                                        break;
+                                    }
+                                case 1:
+                                    {
+                                        rezd2 += 1;
+                                        break;
+                                    }
+                                case 2:
+                                    {
+                                        rezd2 += 2;
+                                        break;
+                                    }
+                            }
+                        switch (xo[i, j])
                         {
-                            case 3:
+                            case 0:
                                 {
-                                    return 1;
+                                    rezx += 5;
+                                    break;
                                 }
-                            case 6:
+                            case 1:
                                 {
-                                    return 2;
+                                    rezx += 1;
+                                    break;
+                                }
+                            case 2:
+                                {
+                                    rezx += 2;
+                                    break;
                                 }
                         }
                     }
-                    return 0;
-                }*/
+                    switch (rezx)
+                    {
+                        case 3:
+                            {
+                                return 1;                                
+                            }
+                        case 6:
+                            {
+                                return 2;                                
+                            }
+                    }
+                }
+            switch (rezd1)
+            {
+                case 3:
+                    {
+                        return 1;
+                    }
+                case 6:
+                    {
+                        return 2;
+                    }
+            }
+            switch (rezd2)
+            {
+                case 3:
+                    {
+                        return 1;
+                    }
+                case 6:
+                    {
+                        return 2;
+                    }
+            }
+            for (int i = 0; i < 3; i++)
+            {
+                int rezy = 0;
+                for (int j = 0; j < 3; j++)
+                {
+                    switch (xo[j, i])
+                    {
+                        case 0:
+                            {
+                                rezy += 5;
+                                break;
+                            }
+                        case 1:
+                            {
+                                rezy += 1;
+                                break;
+                            }
+                        case 2:
+                            {
+                                rezy += 2;
+                                break;
+                            }
+                    }
+                }
+                switch (rezy)
+                {
+                    case 3:
+                        {
+                            return 1;
+                        }
+                    case 6:
+                        {
+                            return 2;
+                        }
+                }
+            }
+            return 0;
+        }
 
-        public int ProveraPobede(int[,] xo, int igrac)
-        {
-            igrac++;
+        static int ProveraPobede(int[,] xo, int igrac)
+        {            
             int rezd1 = 0;
             int rezd2 = 0;
             for (int i = 0; i < 3; i++)
@@ -227,6 +291,56 @@ namespace ConsoleApp1
             return 0;
         }
 
+        public void RealCPU(int[,] xo) //ovo jos ne radi
+        {
+            int[][,] t = new int [8][,];
+            /*
+            *pisemo 7 razlicite varijante svaka varijanta je koliko je polje udaljeno od koordinatnog pocetka, ide od dole levo na desno
+            * kad popuni red krene sredina levo. x se dobija tako sto se uradi mod udaljenosti a y se dobija tako sto se uradi div udaljenosti
+            *
+            */
+            for (int i=1;i<9;i++)
+            {
+                int j = i-1;
+                t[j] = new int [3,3];
+                if (xo[i % 3, i / 3] == 0)
+                {
+                    t[j] = xo;
+                    //t[j][0, 0] = 2;
+                    t[j][i % 3, i / 3] = 2;
+                    int pobednik=ProveraPobedeAlt(t[j]);
+                    switch(pobednik)
+                    {
+                        case 1:
+                            {
+                                Console.WriteLine("Debug poruka 1");
+                                Console.WriteLine("j= " + j);
+                                IspisTable(t[j]);                                
+                                break;
+                            }
+                        case 2:
+                            {
+                                Console.WriteLine("Debug poruka 2");
+                                Console.WriteLine("j= " + j);
+                                IspisTable(t[j]);
+                                Console.WriteLine("Debug poruka 2b");
+                                IspisTable(xo);
+                                Console.WriteLine("Debug poruka 2c");
+                                IspisTable(t[4]); //uspomoc ovog vidim da tek t[4] se popuni, svi pre njega su prazni, nemaju cak ni x dole levo.
+                                Console.ReadKey();
+                                break;
+                            }
+                        default:
+                            {
+                                RealCPU(t[j]);
+                                break;
+                            }
+                    }
+                    //RealCPU(t[j]);
+                }
+                
+            }
+        }
         /* Trenutno je ubacen samo random CPU ponasanje koje ce biti u igri kao najniza tezina, u planu je ubacivanje vece tezine
          * gde ce postojati pravi protivnik koji ce raditi na osnovu poslednje povucenog poteza protivnika i algoritma za pravilno igranje iks oks igre
          * Tada ce se CPU funkciji pored table prosledjivati i jedan int koji ce odrediti "tezinu",
@@ -238,54 +352,55 @@ namespace ConsoleApp1
          * Kada se bude ubacio selektor tezine "real CPU" funkcija ce morati da bude ponovo napisana i prosirena kako bi mogla da radi na osnovu analize polja, 
          * a ne samo poslednjeg poteza protivnika, jer zbog random elementa polje se nece uklopiti u prethodni algoritam
         */
-        static void CPU(int[,] xo) //treba prokljuviti kako da samo vratim 2 broja jednom metodom uspomoc C#7 tuple feature-a
-        {  //mada je to verovatno neefikasno jer u svakom slucaju se mora proslediti tabla za sve cpu situacije sem za random
+
+        public void RandomCPU(int[,] xo)
+        {
             Random rnd = new Random();
             int uspeh = 0;
             do
-            {                
+            {
                 int x = rnd.Next(0, 3);
                 int y = rnd.Next(0, 3);
                 if (xo[x, y] == 0)
                 {
+                    uspeh = 1;
                     xo[x, y] = 2;
                     Console.WriteLine(Environment.NewLine + "Racnar je odigrao x:" + ++x + " y:" + ++y);
-                    uspeh = 1;
                 }
-            } while (uspeh==0);
+            } while (uspeh == 0);
         }
 
-        static void Singleplayer(int red)
+        public void PotezCPU(int[,] xo, int dif) //treba prokljuviti kako da samo vratim 2 broja jednom metodom uspomoc C#7 tuple feature-a
+        {  //mada je to verovatno neefikasno jer u svakom slucaju se mora proslediti tabla za sve cpu situacije sem za random
+            if (dif == 1)
+                RandomCPU(xo);
+            else
+                RealCPU(xo);
+            //Console.WriteLine(Environment.NewLine + "Racnar je odigrao x:" + ++x + " y:" + ++y);
+        }
+
+        public void Singleplayer(int diff, int red)
         {
             int[,] tabla = new int[3, 3];
             int pobednik = 0, x=0, y=0;
-            Program n = new Program();            
-            for (int i = 0-red; i < 9-red; i++)
+            int tez = diff;
+            //Program n = new Program();            
+            for (int i = 0+red; i < 9+red; i++)
             {               
                 if (i % 2 == 0)
-                {                    
-                    IspisTable(tabla);                    
-                    Console.WriteLine(Environment.NewLine + "Na potezu je igrac");
-                    Console.WriteLine("Unesite x koordinatu");
-                    Int32.TryParse(Console.ReadLine(), out x);
-                    Console.WriteLine("Unesite y koordinatu");
-                    Int32.TryParse(Console.ReadLine(), out y);
-                    if (x > 0 && x < 4 && y > 0 && y < 4)
-                        if (tabla[--x, --y] == 0)
-                            tabla[x, y] = 1;
-                        else
-                            i--;
-                    else
-                        i--;
-                    Console.Clear();
+                {
+                    PotezIgrac(tabla, 1);                    
                 }
                 else
                 {
-                    CPU(tabla);
+                    PotezCPU(tabla,tez);
+                    //tabla[x, y] = 2; moram da vidim kako da sa CPU funkcijom promenim x i y(verovatno trebam da ih prosledim)
+                    //Console.WriteLine(Environment.NewLine + "Racnar je odigrao x:" + ++x + " y:" + ++y);
                 }
                 if (i > 3)
                 {
-                    pobednik = n.ProveraPobede(tabla, i % 2);
+                    int z = i % 2 + 1;
+                    pobednik = ProveraPobede(tabla, z);
                     switch(pobednik)
                     {
                         case 1:
@@ -315,50 +430,15 @@ namespace ConsoleApp1
         {
             int[,] tabla = new int[3, 3];
             int pobednik = 0;
-            Program n = new Program();
+            //Program n = new Program();
 
             for (int i = 0; i < 9; i++)
             {
-                int x, y;
-                if (i % 2 == 0)
-                {
-                    Console.Clear();
-                    IspisTable(tabla);
-                    Console.WriteLine(Environment.NewLine + "Na potezu je igrac 1");
-                    Console.WriteLine("Igrac 1 unesite x koordinatu");
-                    Int32.TryParse(Console.ReadLine(), out x);
-                    Console.WriteLine("Igrac 1 unesite y koordinatu");
-                    Int32.TryParse(Console.ReadLine(), out y);
-                    if (x > 0 && x < 4 && y > 0 && y < 4)
-                        if (tabla[--x, --y] == 0)
-                            tabla[x, y] = 1;
-                        else
-                            i--;
-                    else
-                        i--;
-
-                }
-                else
-                {
-                    Console.Clear();
-                    IspisTable(tabla);
-                    Console.WriteLine(Environment.NewLine + "Na potezu je igrac 2");
-                    Console.WriteLine("Igrac 2 unesite x koordinatu");
-                    Int32.TryParse(Console.ReadLine(), out x);
-                    Console.WriteLine("Igrac 2 unesite y koordinatu");
-                    Int32.TryParse(Console.ReadLine(), out y);
-                    if (x > 0 && x < 4 && y > 0 && y < 4)
-                        if (tabla[--x, --y] == 0)
-                            tabla[x, y] = 2;
-                        else
-                            i--;
-                    else
-                        i--;
-
-                }
+                int z = i % 2 + 1;
+                PotezIgrac(tabla, z);                
                 if (i > 3)
                 {
-                    pobednik = n.ProveraPobede(tabla, i % 2);
+                    pobednik = ProveraPobede(tabla, z);
                     if (pobednik != 0)
                     {
                         Console.Clear();
@@ -375,39 +455,35 @@ namespace ConsoleApp1
         }
 
         static void Main(string[] args)
-        {
+        {            
             string unos;
-
             do
             {
                 Console.WriteLine("Unesite broj igraca 1 ili 2, ukoliko zelite prestati sa igrom unesite X");
                 unos = Console.ReadLine();
-
-                switch (unos) //PITANJE? da li je efikasnije konvertovati unos u int pre switcha?
+                switch (unos) //PITANJE? da li je efikasnije konvertovati unos u int pre switcha pa raditi switch sa int a pre toga dodati if ako je unos==k onda break?
                 {
                     case "1":
                         {
                             //Console.WriteLine("Jos nismo dodali ovu mogucnost");
-                            Console.WriteLine("Ako zelite da igrate prvi unesite 1, ako zelite da igrate drugi unesite 2");
-                            unos = Console.ReadLine();
-                            switch(unos)
+                            Console.WriteLine("Unesite tezinu na skali od 1 do 2");
+                            int k;
+                            Int32.TryParse(Console.ReadLine(), out k);     
+                            while ((k != 1) && (k != 2))
                             {
-                                case "1":
-                                    {
-                                        Singleplayer(0);
-                                        break;
-                                    }
-                                case "2":
-                                    {
-                                        Singleplayer(1);
-                                        break;
-                                    }
-                                default:
-                                    {
-                                        Console.WriteLine("Unos nije validan, molimo vas pokusajte ponovo");
-                                        break;
-                                    }
+                                Console.WriteLine("Unos nije validan, molimo vas pokusajte ponovo");
+                                Int32.TryParse(Console.ReadLine(), out k);
                             }
+                            Console.WriteLine("Ako zelite da igrate prvi unesite 1, ako zelite da igrate drugi unesite 2");
+                            int p;
+                            Int32.TryParse(Console.ReadLine(), out p);
+                            while ((p != 1) && (p != 2))
+                            {
+                                Console.WriteLine("Unos nije validan, molimo vas pokusajte ponovo");
+                                Int32.TryParse(Console.ReadLine(), out p);
+                            }
+                            Program n = new Program();
+                            n.Singleplayer(k, p-1);
                             break;
                         }
                     case "2":
@@ -429,10 +505,10 @@ namespace ConsoleApp1
                     default:
                         {
                             Console.WriteLine("Unos nije validan, molimo vas pokusajte ponovo");
+                            unos = Console.ReadLine();
                             break;
                         }
                 }
-
             } while (unos != "X");
 
             //Console.ReadKey();
